@@ -2,28 +2,421 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0E2547"/><text x="50" y="58" font-size="30" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="700">ITSP</text></svg></template>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ITSP WORKS — 地方で働く、という選択。</title>
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/fonts.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="css/fonts.css"></noscript>
+<title>ITSP HUB — 地方で働く、という選択。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Zen+Kaku+Gothic+New:wght@700;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0E2547;
+    --navy-deep:#081A36;
+    --ink:#0B1B30;
+    --paper:#FBFBF9;
+    --mist:#EEF1F5;
+    --line:#E4E8EE;
+    --muted:#5B6B80;
+    --line-green:#06C755;
+    --r:18px;
+    --shadow:0 18px 40px -24px rgba(8,26,54,.30);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  a,button,.btn-line,.job-card{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+  body{
+    font-family:"Noto Sans JP",sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:430px;margin:0 auto;position:relative;background:var(--paper);min-height:100%}
+  h1,h2,h3,.disp{font-family:"Zen Kaku Gothic New",sans-serif;letter-spacing:.01em}
+  .en{font-family:"Space Grotesk",sans-serif;letter-spacing:.04em}
+  section{padding:64px 24px}
+  .eyebrow{
+    font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--navy);display:inline-flex;align-items:center;gap:9px;white-space:nowrap;
+  }
+  .eyebrow::before{content:"";width:22px;height:1.5px;background:var(--navy);display:inline-block}
+  .muted{color:var(--muted)}
+
+  /* ---- top bar ---- */
+  .topbar{
+    position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;background:rgba(251,251,249,.82);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);gap:12px;
+  }
+  .logo{display:flex;align-items:center;gap:9px;font-family:"Space Grotesk";font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);white-space:nowrap;flex:0 0 auto}
+  .logo>span:last-child{display:flex;flex-direction:column;line-height:1.05}
+  .logo .mk{width:22px;height:22px;display:grid;place-items:center}
+  .logo .mk svg{width:22px;height:22px}
+  .logo small{display:block;font-family:"Noto Sans JP";font-weight:500;font-size:9px;letter-spacing:.1em;color:var(--muted);margin-top:1px;white-space:nowrap}
+  .navnow{margin-left:auto;overflow:hidden;height:18px;display:flex;align-items:center;pointer-events:none;flex:1 1 auto;min-width:0;justify-content:flex-end}
+  .navnow span{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:13px;letter-spacing:.01em;color:var(--navy);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;
+    opacity:0;transform:translateY(18px);transition:opacity .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1)}
+  .navnow span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--line-green);margin-right:8px;vertical-align:1px}
+  .navnow.show span{opacity:1;transform:none}
+  /* desktop nav */
+  .topnav{display:none;align-items:center;gap:30px;margin-left:auto}
+  .topnav a{font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;white-space:nowrap;transition:color .2s}
+  .topnav a:hover{color:var(--navy)}
+  .topnav .nav-cta{
+    display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#fff;background:var(--line-green);
+    padding:11px 20px;border-radius:999px;font-size:14px;box-shadow:0 10px 22px -10px rgba(6,199,85,.7);transition:transform .2s,box-shadow .2s;
+  }
+  .topnav .nav-cta:hover{color:#fff;transform:translateY(-1px);box-shadow:0 14px 26px -10px rgba(6,199,85,.8)}
+  .topnav .nav-cta svg{width:17px;height:17px}
+  @media (max-width:899px){
+    .cta-row .qr,.qr-cap,.final .qr{display:none}
+    .btn-line .ll br{display:none}
+    .btn-line{padding:15px;font-size:15px;line-height:1.2}
+    .cta-row{justify-content:center}
+    .cta-side{flex:none;width:100%}
+  }
+  @media (max-width:430px){
+    .topbar{padding-left:16px;padding-right:16px}
+    .navnow span{font-size:12px}
+    .topbar .logo,footer .logo{font-size:15px}
+    .topbar .logo small,footer .logo small{font-size:8.5px;letter-spacing:.05em}
+  }
+
+  /* ---- hero ---- */
+  .hero{padding-top:40px;padding-bottom:34px}
+  .hero h1{font-weight:900;font-size:39px;line-height:1.18;letter-spacing:.005em;margin:18px 0 0}
+  .hero h1 .grad{color:var(--navy)}
+  .hero .lead{margin-top:18px;font-size:15px;color:#33475f;max-width:none;text-wrap:pretty}
+  .hero-figure{
+    margin-top:26px;border-radius:22px;overflow:hidden;height:320px;position:relative;
+    border:1px solid var(--line);box-shadow:var(--shadow);
+  }
+  .hero-visual{display:none}
+  .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+  .hero-slide.active{opacity:1}
+  .hero-slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-slide .ph{position:absolute;inset:0}
+  .ph{
+    position:absolute;inset:0;
+    background:repeating-linear-gradient(135deg,#dfe5ed 0 11px,#e9edf3 11px 22px);
+    display:flex;align-items:flex-end;
+  }
+  .ph span{font-family:"Space Grotesk";font-size:11px;letter-spacing:.06em;color:#6a7990;background:#fff;
+    padding:5px 10px;margin:12px;border-radius:7px;border:1px solid var(--line)}
+  .hero-figure .badge{
+    position:absolute;top:14px;left:14px;background:var(--navy);color:#fff;font-size:11px;font-weight:700;
+    padding:7px 12px;border-radius:999px;letter-spacing:.04em;display:flex;align-items:center;gap:7px;
+  }
+  .hero-figure .badge i{width:6px;height:6px;border-radius:50%;background:#7ee0a6;display:inline-block}
+
+  /* ---- cta block ---- */
+  .cta-card{
+    margin-top:26px;background:var(--navy);color:#fff;border-radius:22px;padding:24px 22px;
+    box-shadow:0 24px 50px -26px rgba(8,26,54,.6);position:relative;overflow:hidden;
+  }
+  .cta-card::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;
+    background:radial-gradient(circle,rgba(94,140,210,.35),transparent 70%)}
+  .cta-card .ct{font-family:"Zen Kaku Gothic New";font-weight:700;font-size:17px;line-height:1.5;position:relative}
+  .cta-row{display:flex;gap:16px;align-items:center;margin-top:18px;position:relative}
+  .qr canvas{width:100%;height:100%;image-rendering:pixelated}
+  .cta-side{flex:1;min-width:0}
+  .btn-line{
+    display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+    background:var(--line-green);color:#fff;font-weight:700;font-size:15px;
+    padding:14px 16px;border-radius:13px;text-decoration:none;border:0;cursor:pointer;
+    box-shadow:0 10px 22px -10px rgba(6,199,85,.8);transition:transform .2s,box-shadow .2s;
+  }
+  .btn-line:hover{transform:translateY(-1px);box-shadow:0 16px 28px -10px rgba(6,199,85,.9)}
+  .btn-line svg{width:20px;height:20px;flex:0 0 20px}
+  .btn-line .ll{line-height:1.22;text-align:center}
+  .cta-note{font-size:11.5px;color:rgba(255,255,255,.7);margin-top:10px;line-height:1.6}
+  .qr-cap{font-size:10px;text-align:center;color:rgba(255,255,255,.6);margin-top:6px;letter-spacing:.04em}
+
+  /* ---- features ---- */
+  .sec-head h2{font-weight:900;font-size:23px;line-height:1.45;margin-top:14px;text-wrap:balance}
+  .sec-head p{margin-top:12px;font-size:14px;color:var(--muted);max-width:none}
+  .feat{display:flex;flex-direction:column;gap:14px;margin-top:30px}
+  .fcard{
+    background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;
+    box-shadow:0 10px 26px -22px rgba(8,26,54,.4);position:relative;transition:transform .25s,box-shadow .25s;
+  }
+  .fcard .no{font-family:"Space Grotesk";font-weight:700;font-size:13px;color:var(--navy);letter-spacing:.1em}
+  .fcard h3{font-weight:700;font-size:18px;margin:12px 66px 8px 0;line-height:1.45}
+  .fcard p{font-size:13.5px;color:#42566e}
+  .ficon.img{width:56px;height:56px;border-radius:50%;background:transparent;overflow:hidden;position:absolute;top:18px;right:18px;border:1px solid var(--line)}
+  .ficon.img img{width:125%;height:125%;object-fit:cover;display:block;position:relative;left:-12.5%;top:-12.5%}
+
+  /* ---- steps ---- */
+  .steps{margin-top:30px;display:flex;flex-direction:column;gap:0}
+  .step{display:grid;grid-template-columns:46px 1fr;gap:16px;padding-bottom:26px;position:relative;min-height:132px}
+  .step:last-child{padding-bottom:0;min-height:0}
+  .step .num{    width:46px;height:46px;border-radius:50%;border:1.5px solid var(--navy);color:var(--navy);
+    font-family:"Space Grotesk";font-weight:700;font-size:18px;display:grid;place-items:center;background:var(--paper);z-index:2;
+  }
+  .step.fin .num{background:var(--line-green);border-color:var(--line-green);color:#fff}
+  .step::before{content:"";position:absolute;left:22.5px;top:46px;bottom:0;width:1.5px;background:var(--line)}
+  .step:last-child::before{display:none}
+  .step h4{font-weight:700;font-size:16px;margin-bottom:5px}
+  .step p{font-size:13px;color:var(--muted)}
+  .step .tag{display:inline-block;margin-top:9px;white-space:nowrap;font-size:11px;font-weight:700;color:var(--line-green);background:rgba(6,199,85,.1);padding:4px 10px;border-radius:999px}
+
+  /* ---- final cta ---- */
+  .final{background:var(--mist);text-align:center;padding:54px 24px 40px}
+  .final h2{font-weight:900;font-size:28px;line-height:1.4}
+  .final p{font-size:14px;color:var(--muted);margin-top:12px}
+  .final .qr{width:150px;height:150px;flex:none;margin:26px auto 0;box-shadow:var(--shadow)}
+  .final .btn-line{max-width:300px;margin:18px auto 0}
+  .final .qr-cap{color:var(--muted)}
+
+  /* ---- footer ---- */
+  footer{background:var(--navy-deep);color:rgba(255,255,255,.75);padding:36px 24px 40px;font-size:12px}
+  footer .logo{color:#fff;margin:0 auto 16px;gap:9px;width:fit-content;text-align:left}
+  footer .logo>span:last-child{flex:0 0 auto;align-items:flex-start;text-align:left}
+  footer .logo small{color:rgba(255,255,255,.55);letter-spacing:.1em}
+  footer a{color:rgba(255,255,255,.75);text-decoration:none}
+  footer .cp{color:rgba(255,255,255,.45);font-size:11px;margin-top:14px;line-height:1.7}
+  footer .finner{display:flex;flex-direction:column;align-items:center;gap:4px}
+  footer .finner .logo{justify-content:flex-start;text-align:left}
+  footer .cp{text-align:center}
+
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+
+  /* ---- lead note ---- */
+  .lead-note{margin-top:14px;font-size:11.5px;color:rgba(255,255,255,.6);display:flex;align-items:flex-start;gap:9px;max-width:none;line-height:1.7;text-wrap:pretty}
+  .lead-note::before{content:"";width:13px;height:1px;background:rgba(255,255,255,.4);flex:0 0 auto;margin-top:9px}
+
+  /* ---- before/after compare ---- */
+  .compare{margin-top:28px;display:flex;flex-direction:column;gap:14px}
+  .ccard{border-radius:18px;padding:16px 16px 17px;position:relative}
+  .ccard.before{background:#fff;border:1.5px solid #d4d6da;box-shadow:0 20px 44px -26px rgba(20,25,32,.18)}
+  .ccard.before .ctag{color:#6b7280}
+  .ccard.before li{color:var(--ink)}
+  .ccard.after{background:#fff;color:var(--ink);border:1px solid #cdeedd;box-shadow:0 20px 44px -26px rgba(22,150,90,.25)}
+  .ctag{font-family:"Space Grotesk";font-weight:700;font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:#b3413a}
+  .ccard.after .ctag{color:#1a9a5c}
+  .ccard ul{margin-top:13px;display:flex;flex-direction:column;gap:9px;list-style:none}
+  .ccard li{font-size:13.8px;line-height:1.6;padding-left:18px;position:relative;color:var(--ink);font-weight:500}
+  .ccard.after li{color:var(--ink)}
+  .ccard.before li::before{content:"\2715";position:absolute;left:0;top:50%;transform:translateY(-50%);color:#8b96a5;font-weight:700;font-size:13px;line-height:1}
+  .ccard.after li::before{content:"\2713";position:absolute;left:0;top:50%;transform:translateY(-50%);color:#1a9a5c;font-weight:700;font-size:13px;line-height:1}
+
+  /* ---- project cards ---- */
+  .jobs-sec{padding:34px 0 40px;background:var(--navy-deep)}
+  .jobs-sec .eyebrow{color:#9dc0f5;margin:0 24px 18px}
+  .jobs-sec .eyebrow::before{background:#9dc0f5}
+  .jobs-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 24px 4px}
+  .jobs-scroll::-webkit-scrollbar{display:none}
+  .jobs-track{display:flex;gap:14px;width:max-content}
+  .job-card{flex:0 0 280px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:20px}
+  .job-tag{display:inline-block;font-family:"Space Grotesk";font-size:11px;font-weight:700;letter-spacing:.05em;color:#0E2547;background:#9dc0f5;padding:4px 10px;border-radius:999px}
+  .job-card h4{font-family:"Zen Kaku Gothic New";font-weight:700;font-size:16px;color:#fff;margin-top:12px;line-height:1.5}
+  .job-dl{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+  .job-dl>div{display:grid;grid-template-columns:58px 1fr;gap:8px}
+  .job-dl dt{font-size:10.5px;font-weight:700;color:#9dc0f5;letter-spacing:.03em;white-space:nowrap;padding-top:1px}
+  .job-dl dd{font-size:12px;color:rgba(255,255,255,.8);line-height:1.65}
+  .jobs-hint{margin:14px 24px 0;font-size:11px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:6px}
+
+  /* ---- transition banner ---- */
+  .transit-card{background:var(--mist);border:1px solid var(--line);border-radius:18px;padding:26px 24px}
+  .ttag{font-family:"Space Grotesk";font-weight:700;font-size:16.5px;letter-spacing:.1em;color:var(--navy);text-transform:uppercase}
+  .transit-card p{margin-top:11px;font-size:14.5px;font-weight:500;line-height:1.85;color:var(--ink)}
+
+  /* ---- company trust ---- */
+  .company-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px 24px;box-shadow:0 14px 34px -26px rgba(8,26,54,.35)}
+  .ctag2{font-family:"Space Grotesk";font-weight:700;font-size:15px;letter-spacing:.1em;color:var(--navy);text-transform:uppercase}
+  .company-card h3{font-weight:700;font-size:19px;line-height:1.55;margin-top:12px}
+  .company-card dl{margin-top:18px;display:flex;flex-direction:column;gap:10px}
+  .company-card dl>div{display:grid;grid-template-columns:76px 1fr;gap:10px;font-size:13px}
+  .company-card dt{color:var(--muted);font-weight:500}
+  .company-card dd{color:var(--ink);font-weight:600}
+  .company-card dd a{color:var(--navy);text-decoration:underline;text-underline-offset:2px}
+  .company-card dd a:hover{color:var(--line-green)}
+  .company-note{margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.8}
+  .rep-block{display:flex;align-items:center;gap:12px;margin-top:16px}
+  .rep-photo{width:88px;height:88px;border-radius:50%;object-fit:cover;flex:0 0 88px;border:1px solid var(--line)}
+  .rep-role{display:block;font-size:14px;color:var(--muted)}
+  .rep-name{display:block;font-size:19px;font-weight:700;color:var(--ink);margin-top:2px}
+
+  /* ============ VARIANT B — BOLD NAVY ============ */
+  body{background:var(--navy-deep)}
+  .wrap{background:var(--paper)}
+  .topbar{background:rgba(8,26,54,.86);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
+  .topbar .logo{color:#fff}
+  .topbar .logo small{color:rgba(255,255,255,.55)}
+  .topbar .logo .mk svg path:first-child{fill:#fff}
+  .topbar .logo .mk svg path:last-child{fill:#081A36}
+  .navnow span{color:#fff}
+  .navnow span::before{background:#7ee0a6}
+  .topnav a{color:#fff}
+  .topnav a:hover{color:#9dc0f5}
+  .hero{
+    background:
+      radial-gradient(120% 80% at 80% -10%, rgba(76,124,200,.45), transparent 55%),
+      radial-gradient(90% 60% at 0% 12%, rgba(40,80,150,.4), transparent 60%),
+      var(--navy-deep);
+    color:#fff;padding:46px 24px 40px;border-bottom-left-radius:34px;border-bottom-right-radius:34px;
+    position:relative;overflow:hidden;
+  }
+  .hero::before{content:"";position:absolute;inset:0;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:30px 30px;-webkit-mask:radial-gradient(80% 60% at 50% 0%,#000,transparent 75%)}
+  .hero>*{position:relative}
+  .hero .eyebrow{color:#9dc0f5}
+  .hero .eyebrow::before{background:#9dc0f5}
+  .hero h1{font-size:46px;font-weight:900;letter-spacing:-.01em;line-height:1.12;color:#fff}
+  .hero h1 .grad{background:linear-gradient(100deg,#7fb0ff,#bcd4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lead{color:rgba(255,255,255,.78)}
+  .hero-figure{border:1px solid rgba(255,255,255,.14);height:320px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+  .hero-figure .ph{background:repeating-linear-gradient(135deg,#16335c 0 11px,#1b3c69 11px 22px)}
+  .hero-figure .ph span{background:#0c2b50;color:#bcd0ee;border-color:rgba(255,255,255,.14)}
+  .cta-card{background:linear-gradient(180deg,#16335c,#102a4c);border:1px solid rgba(255,255,255,.16);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+  .sec-head h2{font-size:30px;letter-spacing:-.01em}
+  .fcard{border-radius:20px}
+  .fcard .no{font-size:14px}
+  .step.fin .num{box-shadow:0 8px 20px -6px rgba(6,199,85,.7)}
+  .final{background:var(--navy-deep);color:#fff}
+  .final .eyebrow{color:#9dc0f5}
+  .final .eyebrow::before{background:#9dc0f5}
+  .final h2{color:#fff}
+  .final p{color:rgba(255,255,255,.7)}
+  .final .qr-cap{color:rgba(255,255,255,.6)}
+
+  /* =====================================================
+     DESKTOP / PC レイアウト (≥ 900px)
+     ===================================================== */
+  @media (min-width:900px){
+    .wrap{max-width:none;width:100%}
+    .topbar{padding:18px clamp(40px,6vw,90px)}
+    .navnow{display:none}
+    .topnav{display:flex}
+
+    .inner{max-width:1200px;margin:0 auto;width:100%}
+    section{padding:100px clamp(40px,6vw,90px)}
+
+    /* hero: 2-col */
+    .hero{padding-top:80px;padding-bottom:92px}
+    .hero .inner{display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(40px,5vw,80px);align-items:end}
+    .hero h1{font-size:clamp(46px,4.6vw,62px);line-height:1.16;margin-top:22px}
+    .hero .lead{font-size:18px;line-height:1.85;max-width:none;margin-top:22px}
+    .lead-note{font-size:13px;max-width:none}
+    .cta-card{margin-top:32px;padding:30px 30px}
+    .cta-card .ct{font-size:19px}
+    .cta-row{gap:22px;margin-top:22px}
+    .qr{width:140px;height:140px;flex-basis:140px}
+    .btn-line{font-size:16px;padding:16px 20px}
+    .cta-note{font-size:12.5px}
+    .qr-cap{font-size:11px}
+    .hero-visual{display:block;position:relative;border-radius:28px;overflow:hidden;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 40px 80px -40px rgba(0,0,0,.6);aspect-ratio:1/1;max-height:540px}
+
+    /* problem/solution: 2-col */
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:50px}
+    .sec-head{max-width:720px;margin:0 auto}
+    .sec-head h2{font-size:clamp(30px,3vw,42px)}
+    .sec-head p{font-size:15.5px}
+    .ccard{padding:34px 32px 36px}
+    .ccard li{font-size:17.8px}
+
+    /* project cards: keep horizontal scroll on desktop too */
+    .jobs-sec{padding:44px 0 48px}
+    .jobs-sec .eyebrow{margin:0 auto 24px;max-width:1200px;padding:0 clamp(40px,6vw,90px)}
+    .jobs-scroll{padding:0 clamp(40px,6vw,90px) 6px;max-width:1200px;margin:0 auto}
+    .job-card{flex:0 0 320px}
+    .jobs-hint{max-width:1200px;margin:14px auto 0;padding:0 clamp(40px,6vw,90px)}
+
+    /* features: 3-col centered head */
+    .feat-sec .sec-head{text-align:center;max-width:640px;margin:0 auto}
+    .feat-sec .sec-head .eyebrow{justify-content:center}
+    .feat-sec .sec-head p{margin-left:auto;margin-right:auto;max-width:48ch}
+    .feat{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:54px}
+    .fcard{padding:30px 28px 28px}
+    .fcard:hover{transform:translateY(-4px);box-shadow:0 28px 50px -28px rgba(8,26,54,.45)}
+    .fcard h3{font-size:21px;margin-top:16px;margin-right:76px}
+    .fcard p{font-size:14.5px;line-height:1.85}
+    .ficon.img{width:64px;height:64px;top:24px;right:24px}
+
+    /* transition banner: centered narrow */
+    .transit-sec{display:flex;justify-content:center}
+    .transit-card{max-width:760px;padding:34px 46px;text-align:center}
+    .transit-card p{font-size:17px}
+
+    .rcard:hover{transform:translateY(-4px);box-shadow:0 24px 44px -26px rgba(8,26,54,.4)}
+
+    /* steps: 4-col horizontal */
+    .how-sec .sec-head{text-align:center;margin:0 auto}
+    .how-sec .sec-head .eyebrow{justify-content:center}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:58px;align-items:stretch}
+    .step{grid-template-columns:1fr;gap:0;padding-bottom:0;text-align:left;display:flex;flex-direction:column;min-height:0}
+    .step>div{display:flex;flex-direction:column}
+    .step>div p{min-height:4.8em}
+    .step::before{content:"";left:auto;top:30px;right:-15px;bottom:auto;width:30px;height:1.5px;background:var(--line)}
+    .step:last-child::before{display:none}
+    .step .num{width:60px;height:60px;font-size:22px;margin-bottom:22px}
+    .step h4{font-size:18px;margin-bottom:8px}
+    .step p{font-size:14px;line-height:1.8}
+
+    /* final */
+    .final{padding:116px clamp(40px,6vw,90px)}
+    .final h2{font-size:clamp(32px,3.4vw,46px)}
+    .final p{font-size:16px;margin-top:16px}
+    .final .qr{width:176px;height:176px}
+    .final .btn-line{max-width:340px;font-size:16px}
+
+    /* company: 2-col */
+    .company-sec{display:flex;justify-content:center}
+    .company-card{max-width:760px;width:100%;padding:44px 48px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+    .company-card h3{font-size:23px;grid-column:1/2}
+    .rep-block{grid-column:1/2}
+    .ctag2{grid-column:1/2}
+    .company-note{grid-column:1/2}
+    .company-card dl{grid-column:2/3;margin-top:0}
+    .company-card dl>div{grid-template-columns:110px 1fr}
+
+    /* footer */
+    footer{padding:56px clamp(40px,6vw,90px) 50px}
+    footer .finner{max-width:1200px;margin:0 auto;gap:6px}
+    footer .cp{margin-top:6px}
+  }
+
+  @media (min-width:900px) and (max-width:1180px){
+    .company-card{grid-template-columns:1fr;padding:36px 38px}
+    .company-card h3,.ctag2,.company-note,.company-card dl,.rep-block{grid-column:1/2}
+    .company-card dl{margin-top:18px}
+  }
+</style>
 </head>
 <body>
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+<rect width="400" height="400" fill="#081A36"/>
+<rect x="70" y="120" width="260" height="160" rx="14" fill="#0E2547" stroke="#3a5a8c" stroke-width="2"/>
+<rect x="90" y="140" width="120" height="14" rx="5" fill="#ffffff"/>
+<rect x="90" y="164" width="90" height="10" rx="4" fill="#9dc0f5"/>
+<rect x="90" y="210" width="110" height="32" rx="9" fill="#06C755"/>
+<rect x="230" y="140" width="80" height="100" rx="8" fill="#16335c"/>
+<text x="200" y="330" fill="#9dc0f5" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" letter-spacing="2">ITSP HUB · PC</text>
+</svg>
+</template>
 <div class="wrap">
 
   <div class="topbar">
     <div class="logo">
       <span class="mk">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2 22 12 12 22 2 12Z" fill="#0E2547"></path><path d="M12 7 17 12 12 17 7 12Z" fill="#fff"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2 22 12 12 22 2 12Z" fill="#0E2547"/><path d="M12 7 17 12 12 17 7 12Z" fill="#fff"/></svg>
       </span>
-      <span>ITSP WORKS<small>by アイティーエスピー</small></span>
+      <span>ITSP HUB<small>by アイティーエスピー</small></span>
     </div>
     <div class="navnow" id="navnow"><span></span></div>
     <nav class="topnav">
       <a href="#features">サービスの特徴</a>
       <a href="#how">利用の流れ</a>
       <a class="nav-cta" href="#cta2">
-        <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.6 1.6 4.9 4 6.3-.1.6-.6 2.2-.7 2.6 0 .2.1.4.4.3.2 0 2.7-1.8 3.8-2.5.8.1 1.6.2 2.5.2 5.5 0 10-3.6 10-8s-4.5-8-10-8Z"></path></svg>
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.6 1.6 4.9 4 6.3-.1.6-.6 2.2-.7 2.6 0 .2.1.4.4.3.2 0 2.7-1.8 3.8-2.5.8.1 1.6.2 2.5.2 5.5 0 10-3.6 10-8s-4.5-8-10-8Z"/></svg>
         LINEで登録
       </a>
     </nav>
@@ -35,15 +428,15 @@
       <div class="hero-copy">
         <span class="eyebrow rv">Freelance × Local</span>
         <h1 class="rv">地方で働く、<br><span class="grad">という選択。</span></h1>
-        <p class="lead rv">都市部のスキルは、そのままに。住む場所を変えずに挑戦できる、<br>地方特化型フリーランスサービスです。</p>
+        <p class="lead rv">都市部のスキルは、そのままに。<br>住む場所を変えずに挑戦できる、<br>地方特化型フリーランスサービスです。</p>
 
         <div class="cta-card rv" id="cta">
           <div class="ct">LINEで友だち追加するだけ。<br>あなたに合う案件をご提案します。</div>
           <div class="cta-row">
-            <div class="qr"><img src="images/line-qr.jpg" alt="LINE QR" style="width:100%;height:100%;object-fit:contain"></div>
+            <div class="qr"><img src="line-qr-temp.jpg" alt="LINE QR" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain"></div>
             <div class="cta-side">
               <a class="btn-line" href="https://line.me/ti/p/L8dYKNPgQ3" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.6 1.6 4.9 4 6.3-.1.6-.6 2.2-.7 2.6 0 .2.1.4.4.3.2 0 2.7-1.8 3.8-2.5.8.1 1.6.2 2.5.2 5.5 0 10-3.6 10-8s-4.5-8-10-8Z"></path></svg>
+                <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.6 1.6 4.9 4 6.3-.1.6-.6 2.2-.7 2.6 0 .2.1.4.4.3.2 0 2.7-1.8 3.8-2.5.8.1 1.6.2 2.5.2 5.5 0 10-3.6 10-8s-4.5-8-10-8Z"/></svg>
                 <span class="ll">LINEで<br>登録無料</span>
               </a>
               <div class="cta-note">登録は3分。まずは情報収集だけでもOK。</div>
@@ -56,10 +449,10 @@
       </div>
 
       <div class="hero-visual rv" id="heroSlider">
-        <div class="hero-slide active"><img src="images/hero-1.jpg" alt="ITSP WORKS スタッフ" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph" style="display:none"><span>写真差し替え予定 1/4</span></div></div>
-        <div class="hero-slide"><img src="images/hero-2.jpg" alt="ITSP WORKS スタッフ" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph" style="display:none"><span>写真差し替え予定 2/4</span></div></div>
-        <div class="hero-slide"><img src="images/hero-3.jpg" alt="ITSP WORKS スタッフ" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph" style="display:none"><span>写真差し替え予定 3/4</span></div></div>
-        <div class="hero-slide"><img src="images/hero-4.jpg" alt="ITSP WORKS スタッフ" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph" style="display:none"><span>写真差し替え予定 4/4</span></div></div>
+        <div class="hero-slide active"><img src="hero-photo.jpg" alt="ITSP HUB スタッフ" fetchpriority="high" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph" style="display:none"><span>写真差し替え予定 1/4</span></div></div>
+        <div class="hero-slide"><img src="hero-photo-2.jpg" alt="ITSP HUB スタッフ" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph" style="display:none"><span>写真差し替え予定 2/4</span></div></div>
+        <div class="hero-slide"><img src="hero-photo-3.jpg" alt="ITSP HUB スタッフ" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph" style="display:none"><span>写真差し替え予定 3/4</span></div></div>
+        <div class="hero-slide"><img src="hero-photo-4.jpg" alt="ITSP HUB スタッフ" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph" style="display:none"><span>写真差し替え予定 4/4</span></div></div>
       </div>
     </div>
   </section>
@@ -81,7 +474,7 @@
           </ul>
         </div>
         <div class="ccard after rv">
-          <span class="ctag">ITSP WORKSなら</span>
+          <span class="ctag">ITSP HUBなら</span>
           <ul>
             <li>地方はもちろん、東京・大阪の案件もご紹介</li>
             <li>開発〜保守・インフラまで幅広く対応</li>
@@ -97,7 +490,7 @@
     <span class="eyebrow">案件イメージ（一例）</span>
     <div class="jobs-scroll">
       <div class="jobs-track">
-        <article class="job-card">
+<article class="job-card">
           <span class="job-tag">【島根】Ruby</span>
           <h4>生産管理システム再構築</h4>
           <dl class="job-dl">
@@ -118,18 +511,6 @@
             <div><dt>期間</dt><dd>即日〜長期</dd></div>
             <div><dt>勤務地</dt><dd>常駐</dd></div>
             <div><dt>単価</dt><dd>〜65万円/月</dd></div>
-            <div><dt>面談</dt><dd>1回</dd></div>
-          </dl>
-        </article>
-        <article class="job-card">
-          <span class="job-tag">【広島】Java</span>
-          <h4>社内システム管理・運用サポート</h4>
-          <dl class="job-dl">
-            <div><dt>業務内容</dt><dd>社内システムの運用サポート</dd></div>
-            <div><dt>スキル</dt><dd>サーバー運用経験</dd></div>
-            <div><dt>期間</dt><dd>即日〜長期</dd></div>
-            <div><dt>勤務地</dt><dd>ハイブリッド</dd></div>
-            <div><dt>単価</dt><dd>〜55万円/月</dd></div>
             <div><dt>面談</dt><dd>1回</dd></div>
           </dl>
         </article>
@@ -174,7 +555,7 @@
           <h4>基幹ネットワーキング保守</h4>
           <dl class="job-dl">
             <div><dt>業務内容</dt><dd>社内ネットワークの運用保守</dd></div>
-            <div><dt>スキル</dt><dd>ナットワーク実務経験</dd></div>
+            <div><dt>スキル</dt><dd>ネットワーク実務経験</dd></div>
             <div><dt>期間</dt><dd>即日〜長期</dd></div>
             <div><dt>勤務地</dt><dd>フルリモート</dd></div>
             <div><dt>単価</dt><dd>〜63万円/月</dd></div>
@@ -194,22 +575,10 @@
           </dl>
         </article>
         <article class="job-card">
-          <span class="job-tag">【東京】Python</span>
-          <h4>社内データ基盤構築</h4>
-          <dl class="job-dl">
-            <div><dt>業務内容</dt><dd>社内データ基盤の構築・集計</dd></div>
-            <div><dt>スキル</dt><dd>Python実務経験</dd></div>
-            <div><dt>期間</dt><dd>即日〜長期</dd></div>
-            <div><dt>勤務地</dt><dd>ハイブリッド</dd></div>
-            <div><dt>単価</dt><dd>〜66万円/月</dd></div>
-            <div><dt>面談</dt><dd>1回</dd></div>
-          </dl>
-        </article>
-        <article class="job-card">
           <span class="job-tag">【島根】QA・テスト</span>
           <h4>基幹業務システム品質保証</h4>
           <dl class="job-dl">
-            <div><dt>業務内容</dt><dd>クーズ作成・テスト実施</dd></div>
+            <div><dt>業務内容</dt><dd>テスト実施</dd></div>
             <div><dt>スキル</dt><dd>QA・テスト実務経験</dd></div>
             <div><dt>期間</dt><dd>即日〜長期</dd></div>
             <div><dt>勤務地</dt><dd>常駐</dd></div>
@@ -217,19 +586,7 @@
             <div><dt>面談</dt><dd>1回</dd></div>
           </dl>
         </article>
-        <article class="job-card">
-          <span class="job-tag">【大阪】Javaシニア</span>
-          <h4>金融系システム保守運用</h4>
-          <dl class="job-dl">
-            <div><dt>業務内容</dt><dd>金融系基幹の保守運用</dd></div>
-            <div><dt>スキル</dt><dd>Javaシニア実務経験</dd></div>
-            <div><dt>期間</dt><dd>即日〜長期</dd></div>
-            <div><dt>勤務地</dt><dd>ハイブリッド</dd></div>
-            <div><dt>単価</dt><dd>〜68万円/月</dd></div>
-            <div><dt>面談</dt><dd>1回</dd></div>
-          </dl>
-        </article>
-      </div>
+        </div>
     </div>
     <div class="jobs-hint">◀▶ 横にスクロールできます</div>
   </section>
@@ -244,19 +601,19 @@
       </div>
       <div class="feat">
         <div class="fcard rv">
-          <div class="ficon img"><img src="images/feature-1.svg" alt=""></div>
+          <div class="ficon img"><img src="feat-01.svg" alt="" loading="lazy" decoding="async"></div>
           <div class="no">01</div>
           <h3>営業力の強いチームだから案件豊富</h3>
           <p>地方をメインにIT業界12年、営業歴12年の代表を筆頭に、営業力の強いチームが案件を開拓。リモート案件も多数あります。地方出身の営業担当も多く、地方で働くことへの理解も深いです。</p>
         </div>
         <div class="fcard rv">
-          <div class="ficon img"><img src="images/feature-2.svg" alt=""></div>
+          <div class="ficon img"><img src="feat-02.svg" alt="" loading="lazy" decoding="async"></div>
           <div class="no">02</div>
           <h3>気軽にLINEで相談可能</h3>
           <p>単なる案件紹介ではなく、エンジニアのキャリアを考えて提案をします。気軽にLINEで相談できる環境があります。</p>
         </div>
         <div class="fcard rv">
-          <div class="ficon img"><img src="images/feature-3.svg" alt=""></div>
+          <div class="ficon img"><img src="feat-03.svg" alt="" loading="lazy" decoding="async"></div>
           <div class="no">03</div>
           <h3>充実のサポート体制</h3>
           <p>基本契約書、機密保持（NDA）締結までのレクチャー、親身なキャリア相談まで。AIではなく専任の担当が一人ひとりに向き合い、稼働後も継続的にフォローします。</p>
@@ -306,10 +663,10 @@
     <span class="eyebrow rv" style="display:inline-flex;justify-content:center">Start here</span>
     <h2 class="rv">まずは、LINEから。</h2>
     <p class="rv">「ちょっと話を聞いてみたい」でも大丈夫。<br>あなたの地方での働き方を、一緒に考えます。</p>
-    <div class="qr rv"><img src="images/line-qr.jpg" alt="LINE QR" style="width:100%;height:100%;object-fit:contain"></div>
+    <div class="qr rv"><img src="line-qr-temp.jpg" alt="LINE QR" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain"></div>
     <a class="btn-line rv" href="https://line.me/ti/p/L8dYKNPgQ3" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.6 1.6 4.9 4 6.3-.1.6-.6 2.2-.7 2.6 0 .2.1.4.4.3.2 0 2.7-1.8 3.8-2.5.8.1 1.6.2 2.5.2 5.5 0 10-3.6 10-8s-4.5-8-10-8Z"></path></svg>
-      LINEで友だち追加（無料）
+      <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.6 1.6 4.9 4 6.3-.1.6-.6 2.2-.7 2.6 0 .2.1.4.4.3.2 0 2.7-1.8 3.8-2.5.8.1 1.6.2 2.5.2 5.5 0 10-3.6 10-8s-4.5-8-10-8Z"/></svg>
+      LINEで登録無料
     </a>
   </section>
 
@@ -319,7 +676,7 @@
       <span class="ctag2">運営会社</span>
       <h3>島根から全国へ、ITの現場を支えてきた会社です。</h3>
       <div class="rep-block">
-        <img class="rep-photo" src="images/representative.png" alt="代表取締役 松島秀彰">
+        <img class="rep-photo" src="rep-matsushima.jpg" alt="代表取締役 松島秀彰" loading="lazy" decoding="async">
         <div><span class="rep-role">代表取締役</span><span class="rep-name">松島 秀彰</span></div>
       </div>
       <dl>
@@ -328,10 +685,10 @@
         <div><dt>代表者</dt><dd>松島 秀彰</dd></div>
         <div><dt>拠点</dt><dd>島根・鳥取・広島・沖縄・東京・大阪</dd></div>
         <div><dt>事業内容</dt><dd>Webアプリケーション開発／システムコンサルティング／システムエンジニアリングサービス</dd></div>
-        <div><dt>社員数</dt><dd>41名</dd></div>
+        <div><dt>社員数</dt><dd>40名</dd></div>
         <div><dt>URL</dt><dd><a href="https://it-sp.co.jp/" target="_blank" rel="noopener">it-sp.co.jp</a></dd></div>
       </dl>
-      <p class="company-note">ITSP WORKSは、その知見とネットワークを活かした地方特化フリーランスサービスです。</p>
+      <p class="company-note">ITSP HUBは、その知見とネットワークを活かした地方特化フリーランスサービスです。</p>
     </div>
   </section>
 
@@ -339,32 +696,106 @@
     <div class="finner">
       <div>
         <div class="logo">
-          <span class="mk"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 22 12 12 22 2 12Z" fill="#fff"></path><path d="M12 7 17 12 12 17 7 12Z" fill="#081A36"></path></svg></span>
-          <span>ITSP WORKS<small>by アイティーエスピー</small></span>
+          <span class="mk"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 22 12 12 22 2 12Z" fill="#fff"/><path d="M12 7 17 12 12 17 7 12Z" fill="#081A36"/></svg></span>
+          <span>ITSP HUB<small>by アイティーエスピー</small></span>
         </div>
-        <div class="cp">運営：株式会社アイティーエスピー（島根県）<br>© 2026 ITSP WORKS. All rights reserved.</div>
-      </div>
-      <div class="frow">
-        <a href="#features">サービスについて</a>
-        <a href="#how">よくある質問</a>
-        <a href="#">運営会社</a>
-        <a href="#">プライバシー</a>
+        <div class="cp">© 2026 ITSP HUB. All rights reserved.</div>
       </div>
     </div>
   </footer>
 
-  <div class="dock">
-    <a href="#cta2">
-      <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.6 1.6 4.9 4 6.3-.1.6-.6 2.2-.7 2.6 0 .2.1.4.4.3.2 0 2.7-1.8 3.8-2.5.8.1 1.6.2 2.5.2 5.5 0 10-3.6 10-8s-4.5-8-10-8Z"></path></svg>
-      LINEで友だち追加して案件を見る
-    </a>
-  </div>
 
 </div>
 
+<script>
 
 
+  (function(){
+    const slides=document.querySelectorAll('#heroSlider .hero-slide');
+    if(slides.length<2) return;
+    let i=0;
+    setInterval(()=>{
+      slides[i].classList.remove('active');
+      i=(i+1)%slides.length;
+      slides[i].classList.add('active');
+    },7000);
+  })();
 
-<script src="js/main.js"></script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.14});
+  document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%4*60)+'ms';io.observe(el);});
+
+  (function(){
+    const label=document.getElementById('navnow');
+    const span=label.querySelector('span');
+    const secs=[...document.querySelectorAll('[data-nav]')].map(el=>({el,t:el.getAttribute('data-nav')}));
+    let cur='';
+    function update(){
+      let active=null;
+      for(const s of secs){ if(s.el.getBoundingClientRect().top<=84) active=s; }
+      const t=active?active.t:'';
+      if(t!==cur){
+        cur=t;
+        if(t){
+          label.classList.remove('show');
+          span.textContent=t;
+          void span.offsetWidth;
+          requestAnimationFrame(()=>label.classList.add('show'));
+        } else { label.classList.remove('show'); }
+      }
+    }
+    update();
+    window.addEventListener('scroll',update,{passive:true});
+    window.addEventListener('resize',update);
+  })();
+
+  // auto-scroll the job cards to the left, pausing on user interaction
+  (function(){
+    const scroller=document.querySelector('.jobs-scroll');
+    const track=scroller&&scroller.querySelector('.jobs-track');
+    if(!scroller||!track) return;
+    const n=track.children.length;
+    track.innerHTML+=track.innerHTML;
+    let paused=false,resumeTimer=null,visible=true,half=0,pos=0,last=0;
+    function measure(){ half=track.children[n].offsetLeft-track.children[0].offsetLeft; }
+    measure(); window.addEventListener('resize',measure);
+    function step(now){
+      const dt=last?Math.min(now-last,50):16; last=now;
+      if(!paused&&visible&&half>0){
+        pos+=dt*0.028;
+        if(pos>=half) pos-=half;
+        scroller.scrollLeft=pos;
+      }else{ pos=scroller.scrollLeft; }
+      requestAnimationFrame(step);
+    }
+    function pause(){ paused=true; clearTimeout(resumeTimer); }
+    function resume(){ clearTimeout(resumeTimer); resumeTimer=setTimeout(()=>{paused=false;},2200); }
+    ['pointerdown','wheel','touchstart'].forEach(ev=>scroller.addEventListener(ev,pause,{passive:true}));
+    ['pointerup','touchend','mouseleave'].forEach(ev=>scroller.addEventListener(ev,resume,{passive:true}));
+    new IntersectionObserver(es=>{visible=es[0].isIntersecting;},{threshold:.01}).observe(scroller);
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){ requestAnimationFrame(step); }
+  })();
+
+  // slow, eased anchor scrolling
+  (function(){
+    function ease(t){ return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+    document.addEventListener('click',e=>{
+      const a=e.target.closest('a[href^="#"]');
+      if(!a) return;
+      const id=a.getAttribute('href');
+      if(id==='#') return;
+      const tgt=document.querySelector(id);
+      if(!tgt) return;
+      e.preventDefault();
+      const startY=window.pageYOffset;
+      const endY=tgt.getBoundingClientRect().top+startY-8;
+      const dist=endY-startY, dur=1500, t0=performance.now();
+      (function frame(now){
+        const p=Math.min(1,(now-t0)/dur);
+        window.scrollTo(0,startY+dist*ease(p));
+        if(p<1) requestAnimationFrame(frame);
+      })(t0);
+    });
+  })();
+</script>
 </body>
 </html>
